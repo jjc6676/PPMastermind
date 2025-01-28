@@ -1,4 +1,4 @@
-# PlaneJane
+# PPMastermind
  
 # Project: Teensy-Based RC Transmitter Emulator
 
