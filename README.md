@@ -44,11 +44,11 @@ This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter 
 
 ## Software Setup
 ### Required Libraries
-- **Servo.h**: For PWM signal generation (if used in debugging or extensions)
-- **SD.h**: For data logging (optional)
+- **Servo.h**: For PWM signal generation (if used in debugging or extensions). [Install Servo.h](https://www.arduino.cc/reference/en/libraries/servo/)
+- **SD.h**: For data logging (optional). [Install SD.h](https://www.arduino.cc/reference/en/libraries/sd/)
 
 ### Arduino IDE Configuration
-1. Install the **Teensyduino** add-on.
+1. Install the **Teensyduino** add-on. [Get Teensyduino](https://www.pjrc.com/teensy/teensyduino.html)
 2. Select the board: `Teensy 4.1`.
 3. Choose the appropriate COM port.
 
