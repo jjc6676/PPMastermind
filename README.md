@@ -1,26 +1,27 @@
 # PPMastermind
- 
-# Project: Teensy-Based RC Transmitter Emulator
+
+# Project: Teensy-Based RC Transmitter Emulator with PWM Control
 
 ## Overview
-This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter by generating a PPM signal. The system is designed to interface with an **Archer Plus SR8 receiver** and provide dynamic control via potentiometers acting as joysticks. The setup is suitable for testing and calibration purposes, simulating wind effects on a gimbal-mounted plane, and general RC applications.
+This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter by generating and processing PWM signals. The system integrates an **Archer Plus SR8 receiver** and rotary potentiometers for manual adjustments to stabilization gains and flight modes. It is designed for advanced RC applications, including testing and calibration of servos and simulating flight dynamics.
 
 ---
 
 ## Features
-- Reads inputs from up to **4 potentiometers** to control channels (Pitch, Roll, Yaw, Throttle).
-- Generates a **PPM signal** compatible with most RC receivers, including the Archer Plus SR8.
-- Includes **data logging** via serial monitor or optional SD card.
-- Provides a base framework for integration with Lua scripting for further customization.
+- Reads inputs from up to **4 potentiometers** for real-time gain control (Pitch, Roll, Yaw, Throttle).
+- Generates **PWM signals** compatible with most RC receivers, including the Archer Plus SR8.
+- Supports **dynamic flight mode selection** via switches.
+- Includes **data logging** to an SD card for debugging and performance tracking.
+- Provides compatibility with **Lua scripts** for further customization on FrSky X20S transmitters.
 
 ---
 
 ## Hardware Components
-1. **Teensy 4.1** (Microcontroller for signal generation)
+1. **Teensy 4.1** (Microcontroller for signal processing)
 2. **Rotary Potentiometers (4)** (Input control for Pitch, Roll, Yaw, and Throttle)
-3. **Archer Plus SR8 Receiver** (PPM-compatible receiver with integrated gyro)
-4. **Power Supply (5V, 5A)** (For Teensy and potentiometer power)
-5. **Wires and Connectors**
+3. **Archer Plus SR8 Receiver** (PWM-compatible receiver with integrated gyro)
+4. **Power Supply (5V, 5A)** (For Teensy, potentiometers, and servos)
+5. **Servos (Control Surfaces)** (For stabilization and testing)
 6. Optional: **SD Card Module** (For data logging)
 
 ---
@@ -32,20 +33,24 @@ This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter 
   - Middle Pin: **Analog Input** (A0, A1, A2, A3)
   - Right Pin: **3.3V**
 - **Teensy**:
-  - PPM Output: Digital Pin 9
+  - PWM Outputs: Digital Pins (e.g., 6, 7, 8, 9)
   - Potentiometer Inputs: A0, A1, A2, A3
   - GND: Common ground with power supply and receiver
   - 5V: Shared with receiver (via power supply)
 - **Archer Plus SR8**:
-  - PPM Input: Connect to Teensy Digital Pin 9
+  - PWM Inputs: Teensy Digital Pins (as configured)
   - GND: Common ground
+- **Servos**:
+  - Signal Wires: From SR8 to each servo channel (CH1, CH2, etc.)
+  - Power: External 5V power supply
+  - GND: Common ground with receiver
 
 ---
 
 ## Software Setup
 ### Required Libraries
-- **Servo.h**: For PWM signal generation (if used in debugging or extensions). [Install Servo.h](https://www.arduino.cc/reference/en/libraries/servo/)
-- **SD.h**: For data logging (optional). [Install SD.h](https://www.arduino.cc/reference/en/libraries/sd/)
+- **Servo.h**: For PWM signal generation. [Install Servo.h](https://www.arduino.cc/reference/en/libraries/servo/)
+- **SD.h**: For data logging. [Install SD.h](https://www.arduino.cc/reference/en/libraries/sd/)
 
 ### Arduino IDE Configuration
 1. Install the **Teensyduino** add-on. [Get Teensyduino](https://www.pjrc.com/teensy/teensyduino.html)
@@ -57,37 +62,36 @@ This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter 
 ## Code Overview
 ### 1. **Potentiometer Input Reading**
 - Reads analog values from potentiometers.
-- Maps values to the range 1000–2000 µs for PPM.
+- Maps values to the appropriate range for gain adjustments and PWM outputs.
 
-### 2. **PPM Signal Generation**
-- Combines multiple channels (Pitch, Roll, Yaw, Throttle) into a single PPM output.
-- Ensures compatibility with the Archer Plus SR8 receiver.
+### 2. **PWM Signal Processing**
+- Dynamically adjusts PWM signals based on potentiometer values.
+- Outputs the adjusted PWM signals to the Archer Plus SR8 or servos directly.
 
 ### 3. **Debugging and Data Logging**
-- Logs potentiometer values and PPM outputs to the serial monitor.
-- Optionally writes data to an SD card.
+- Logs potentiometer values and PWM outputs to an SD card or serial monitor.
 
 ### 4. **Lua Script Integration**
-- Processes and simulates PPM data in Lua for use in RC simulations or game engines.
+- Provides additional functionality for FrSky X20S transmitters.
 
 ---
 
 ## Example Usage
 1. **Connect the Hardware**:
-   - Wire the potentiometers, Teensy, and receiver as per the wiring diagram.
+   - Wire the potentiometers, Teensy, servos, and receiver as per the wiring diagram.
 2. **Upload the Code**:
    - Use the Arduino IDE to upload the provided code to the Teensy.
 3. **Monitor Data**:
-   - Open the serial monitor to view real-time data (optional).
+   - Use the serial monitor or check the SD card logs for debugging.
 4. **Test Receiver Integration**:
-   - Connect the PPM output to the Archer Plus SR8 and observe channel responses.
+   - Connect PWM outputs to the Archer Plus SR8 and verify servo responses.
 
 ---
 
 ## Troubleshooting
-1. **PPM Signal Not Detected**:
+1. **PWM Signal Not Detected**:
    - Ensure the Teensy and receiver share a common ground.
-   - Verify the PPM output pin is correctly connected.
+   - Verify the PWM output pins are correctly connected.
 2. **Incorrect Channel Responses**:
    - Check the potentiometer connections.
    - Verify the mapping ranges in the code.
@@ -98,18 +102,18 @@ This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter 
 
 ## Future Enhancements
 1. Add **additional channels** (e.g., switches or buttons).
-2. Integrate **PID control** for stabilization testing.
-3. Enhance data logging with timestamps and telemetry.
-4. Expand Lua script functionality for advanced RC applications.
+2. Enhance data logging with timestamps and telemetry.
+3. Integrate visual feedback using an OLED or TFT display.
+4. Design a custom PCB for a more compact and robust solution.
 
 ---
 
 ## References
 - [Teensy Documentation](https://www.pjrc.com/teensy/)
 - [Archer Plus SR8 Manual](https://www.frsky-rc.com/archer-plus-sr8/)
-- [PPM Protocol Guide](https://oscarliang.com/ppm-signals/)
+- [PWM Signal Guide](https://oscarliang.com/pwm-signals/)
 
 ---
 
 ## Author
-This project documentation was tailored for your custom Teensy-based RC transmitter emulator. If you need additional assistance, feel free to reach out!
+This project is tailored for advanced RC applications. Contributions and suggestions are always welcome!
