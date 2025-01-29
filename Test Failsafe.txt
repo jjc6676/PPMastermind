@@ -1,0 +1,7 @@
+-   **Test the Script on FrSky X20S**
+
+    -   Load the script into `/SCRIPTS/TOOLS/` on your transmitter.
+    -   Run the script and check the **graphical mode selector**.-   **Test Failsafe Activation**
+
+    -   Turn off the receiver or block the signal.
+    -   Verify that it switches to **Beginner Mode** and displays **"SIGNAL LOST - FAILSAFE!"**.
