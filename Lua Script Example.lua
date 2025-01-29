@@ -1,4 +1,4 @@
--- Lua Script for FrSky X20S: PWM Control with Graphical Flight Mode Selector and Failsafe Mode
+-- Lua Script for FrSky X20S: Touchscreen Flight Mode Selector with Failsafe Mode
 
 -- Initialize PWM channel values
 local pitchPWM, rollPWM, yawPWM, throttlePWM = 1500, 1500, 1500, 1500
@@ -6,11 +6,18 @@ local pitchGain, rollGain, yawGain = 50, 50, 50 -- Default gain values (0 to 100
 local flightMode = 1 -- Default flight mode (Beginner)
 local signalLost = false -- Track signal loss
 
+-- Touchscreen button positions
+local modeButtons = {
+    {x = 10, y = 30, width = 100, height = 20, label = "Beginner"},
+    {x = 10, y = 55, width = 100, height = 20, label = "Intermediate"},
+    {x = 10, y = 80, width = 100, height = 20, label = "Expert"}
+}
+
 -- Function to read PWM inputs
 local function readPWM(channel)
-    local pwmValue = model.getPWM(channel) -- Reads real PWM input from the receiver
+    local pwmValue = model.getPWM(channel)
     if pwmValue == nil then
-        signalLost = true  -- Set failsafe if signal is lost
+        signalLost = true  -- Enable failsafe mode if signal is lost
         return 1500        -- Default safe value (neutral)
     else
         signalLost = false
@@ -23,25 +30,14 @@ local function writePWM(channel, value)
     model.setPWM(channel, value) -- Sends adjusted PWM signals
 end
 
--- Function to update gains and flight mode
+-- Function to update gains
 local function updateSettings()
-    -- Adjust gains using sliders
-    pitchGain = math.floor(getValue("ls1") * 100) -- Slider 1 for pitch gain
-    rollGain = math.floor(getValue("ls2") * 100)  -- Slider 2 for roll gain
-    yawGain = math.floor(getValue("ls3") * 100)   -- Slider 3 for yaw gain
-
-    -- Flight mode switch (3-position switch "sa")
-    local modeSwitch = getValue("sa") 
-    if modeSwitch < 0 then
-        flightMode = 1 -- Beginner Mode
-    elseif modeSwitch == 0 then
-        flightMode = 2 -- Intermediate Mode
-    else
-        flightMode = 3 -- Expert Mode
-    end
+    pitchGain = math.floor(getValue("ls1") * 100)
+    rollGain = math.floor(getValue("ls2") * 100)
+    yawGain = math.floor(getValue("ls3") * 100)
 end
 
--- Function to activate failsafe mode on signal loss
+-- Function to activate failsafe mode if signal is lost
 local function failsafe()
     if signalLost then
         flightMode = 1  -- Force Beginner Mode for safety
@@ -49,50 +45,50 @@ local function failsafe()
     end
 end
 
--- Function to draw graphical flight mode selector
+-- Function to draw touchscreen buttons and highlight selection
 local function drawFlightModeSelector()
     lcd.clear()
-    lcd.drawText(10, 10, "Flight Mode:", 0)
+    lcd.drawText(10, 10, "Select Flight Mode:", 0)
 
-    -- Draw selection box
-    if flightMode == 1 then
-        lcd.drawFilledRectangle(10, 30, 100, 20) -- Highlight Beginner
-        lcd.drawText(15, 35, "Beginner", INVERS)
-    else
-        lcd.drawText(15, 35, "Beginner", 0)
-    end
-
-    if flightMode == 2 then
-        lcd.drawFilledRectangle(10, 50, 100, 20) -- Highlight Intermediate
-        lcd.drawText(15, 55, "Intermediate", INVERS)
-    else
-        lcd.drawText(15, 55, "Intermediate", 0)
-    end
-
-    if flightMode == 3 then
-        lcd.drawFilledRectangle(10, 70, 100, 20) -- Highlight Expert
-        lcd.drawText(15, 75, "Expert", INVERS)
-    else
-        lcd.drawText(15, 75, "Expert", 0)
+    for i, btn in ipairs(modeButtons) do
+        if flightMode == i then
+            lcd.drawFilledRectangle(btn.x, btn.y, btn.width, btn.height) -- Highlight selected mode
+            lcd.drawText(btn.x + 5, btn.y + 5, btn.label, INVERS)
+        else
+            lcd.drawRectangle(btn.x, btn.y, btn.width, btn.height) -- Draw non-selected button
+            lcd.drawText(btn.x + 5, btn.y + 5, btn.label, 0)
+        end
     end
 
     -- Display failsafe warning if signal is lost
     if signalLost then
-        lcd.drawText(10, 100, "SIGNAL LOST - FAILSAFE!", BLINK + INVERS)
+        lcd.drawText(10, 110, "SIGNAL LOST - FAILSAFE!", BLINK + INVERS)
+    end
+end
+
+-- Function to detect touchscreen taps and change flight mode
+local function checkTouchInput(event)
+    local x, y = getTouchPos() -- Get touch position
+    if x and y then
+        for i, btn in ipairs(modeButtons) do
+            if x >= btn.x and x <= btn.x + btn.width and y >= btn.y and y <= btn.y + btn.height then
+                flightMode = i -- Change flight mode based on touch input
+            end
+        end
     end
 end
 
 -- Main loop function
 local function run(event)
     -- Read PWM inputs
-    pitchPWM = readPWM(1) -- Channel 1
-    rollPWM = readPWM(2)  -- Channel 2
-    yawPWM = readPWM(3)   -- Channel 3
-    throttlePWM = readPWM(4) -- Channel 4
+    pitchPWM = readPWM(1)
+    rollPWM = readPWM(2)
+    yawPWM = readPWM(3)
+    throttlePWM = readPWM(4)
 
-    -- Update settings
+    -- Update settings and check failsafe
     updateSettings()
-    failsafe() -- Activate failsafe if needed
+    failsafe()
 
     -- Adjust PWM values based on gain settings
     pitchPWM = pitchPWM + (pitchGain - 50) * 10
@@ -105,7 +101,10 @@ local function run(event)
     writePWM(3, yawPWM)
     writePWM(4, throttlePWM)
 
-    -- Draw the graphical flight mode selector
+    -- Check for touchscreen input
+    checkTouchInput(event)
+
+    -- Draw the flight mode selector with touchscreen buttons
     drawFlightModeSelector()
 end
 
