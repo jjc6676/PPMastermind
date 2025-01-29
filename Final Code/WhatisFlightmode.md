@@ -38,7 +38,7 @@ How to Use `flightMode`
 
 -   The current flight mode is displayed in the serial monitor:
 
-    `Serial.print(", Flight Mode: ");
+    Serial.print(", Flight Mode: ");
 
     Serial.println(flightMode);`
 
@@ -52,7 +52,7 @@ Example Logic Based on `flightMode`
 
 -----------------------------------
 
-`if (flightMode == 1) {
+if (flightMode == 1) {
 
     // Beginner Mode: Strong auto-stabilization
 
