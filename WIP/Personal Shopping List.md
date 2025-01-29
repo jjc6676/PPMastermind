@@ -23,7 +23,8 @@ This project implements a **Fly-By-Wire (FBW) stabilization system** using a **T
 4️⃣ **4x Servos** - Control Gimbal & Aircraft Stabilization  
 5️⃣ **Potentiometers** - Manual Gain Control  
 6️⃣ **SD Card** - Flight Data Logging  
-7️⃣ **Power Supply (5V, 5A)** - Stable Power Source  
+7️⃣ **Power Supply (5V, 5A UBEC)** - Stable Power Source  
+8️⃣ **3S or 4S LiPo Battery (2200mAh, 35C)** - Main System Battery  
 
 ### **📌 Components You Need to Get Started**
 1️⃣ **Jumper Wires & Connectors** - For Servo & Receiver Wiring  
@@ -32,6 +33,7 @@ This project implements a **Fly-By-Wire (FBW) stabilization system** using a **T
 4️⃣ **PPM Signal Tester** - Debugging PWM Outputs  
 5️⃣ **USB Logic Analyzer** - Testing Serial & Telemetry Signals  
 6️⃣ **Project Enclosure** - To Protect Electronics  
+7️⃣ **(Optional) Second UBEC** - Redundant Power Supply  
 
 ### **🔮 Future Enhancements Shopping List**
 1️⃣ **GPS Module (e.g., Ublox NEO-M8N)** - For Return-to-Home (RTH)  
@@ -57,6 +59,13 @@ This project implements a **Fly-By-Wire (FBW) stabilization system** using a **T
   - GND: **Common Ground**
 - **FrSky X20S**:
   - Displays **Flight Data & Adjusts AI Gains**
+- **3S or 4S LiPo Battery**:
+  - Provides Power to UBEC
+  - Powers **Teensy, Receiver, and Servos** via UBEC  
+- **5V 5A UBEC**:
+  - **Input:** Connects to **Battery Positive & Negative**  
+  - **Output:** Provides **5V to Teensy, Receiver, and Servos**  
+  - **(Optional) Second UBEC** for redundancy  
 
 ---
 
