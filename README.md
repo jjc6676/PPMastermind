@@ -1,119 +1,109 @@
-# PPMastermind
+# PPMastermind: Fly-By-Wire System for RC Aircraft
 
-# Project: Teensy-Based RC Transmitter Emulator with PWM Control
-
-## Overview
-This project uses a **Teensy 4.1 microcontroller** to emulate an RC transmitter by generating and processing PWM signals. The system integrates an **Archer Plus SR8 receiver** and rotary potentiometers for manual adjustments to stabilization gains and flight modes. It is designed for advanced RC applications, including testing and calibration of servos and simulating flight dynamics.
+## 🚀 Overview
+This project implements a **Fly-By-Wire (FBW) stabilization system** using a **Teensy 4.1 microcontroller**. It is designed to enhance RC aircraft control by integrating **AI-driven flight stability, telemetry, and adaptive tuning**. The system interacts with an **Archer Plus SR8 receiver**, **FrSky X20S telemetry**, and **real-time AI processing** to improve flight dynamics and provide intelligent automation.
 
 ---
 
-## Features
-- Reads inputs from up to **4 potentiometers** for real-time gain control (Pitch, Roll, Yaw, Throttle).
-- Generates **PWM signals** compatible with most RC receivers, including the Archer Plus SR8.
-- Supports **dynamic flight mode selection** via switches.
-- Includes **data logging** to an SD card for debugging and performance tracking.
-- Provides compatibility with **Lua scripts** for further customization on FrSky X20S transmitters.
+## 🎯 Features
+✅ **Gyro-Assisted Flight Stabilization** (Auto-Corrects Roll, Pitch, and Yaw)  
+✅ **Adaptive AI Tuning** (Real-Time Flight Mode Adjustments)  
+✅ **FrSky X20S Telemetry Integration** (Live Flight Data Monitoring)  
+✅ **Failsafe Auto-Recovery & Emergency Return-to-Home (RTH)**  
+✅ **Manual Gain Adjustments via FrSky or Potentiometers**  
+✅ **SD Card Data Logging for Post-Flight Analysis**  
 
 ---
 
-## Hardware Components
-1. **Teensy 4.1** (Microcontroller for signal processing)
-2. **Rotary Potentiometers (4)** (Input control for Pitch, Roll, Yaw, and Throttle)
-3. **Archer Plus SR8 Receiver** (PWM-compatible receiver with integrated gyro)
-4. **Power Supply (5V, 5A)** (For Teensy, potentiometers, and servos)
-5. **Servos (Control Surfaces)** (For stabilization and testing)
-6. Optional: **SD Card Module** (For data logging)
+## 🛠️ Hardware Components
+1️⃣ **Teensy 4.1** - Core Flight Controller (Processes PWM, AI, and Telemetry)  
+2️⃣ **Archer Plus SR8 Receiver** - Provides PWM Signals & Gyro Feedback  
+3️⃣ **FrSky X20S Transmitter** - Displays Live Telemetry & Adjusts Gains  
+4️⃣ **4x Servos** - Control Gimbal & Aircraft Stabilization  
+5️⃣ **Potentiometers (Optional)** - Manual Gain Control  
+6️⃣ **SD Card (Optional)** - Flight Data Logging  
+7️⃣ **Power Supply (5V, 5A)** - Ensures Stable Operation  
 
 ---
 
-## Wiring Diagram
-### Connections:
-- **Potentiometers**:
-  - Left Pin: **GND**
-  - Middle Pin: **Analog Input** (A0, A1, A2, A3)
-  - Right Pin: **3.3V**
-- **Teensy**:
-  - PWM Outputs: Digital Pins (e.g., 6, 7, 8, 9)
-  - Potentiometer Inputs: A0, A1, A2, A3
-  - GND: Common ground with power supply and receiver
-  - 5V: Shared with receiver (via power supply)
-- **Archer Plus SR8**:
-  - PWM Inputs: Teensy Digital Pins (as configured)
-  - GND: Common ground
-- **Servos**:
-  - Signal Wires: From SR8 to each servo channel (CH1, CH2, etc.)
-  - Power: External 5V power supply
-  - GND: Common ground with receiver
+## 🔌 Wiring Diagram
+### **Connections:**
+- **Teensy 4.1**:
+  - PWM Outputs: **Servos (Pins 6, 7, 8, 9)**
+  - Analog Inputs: **Potentiometers (A0, A1, A2, A3)**
+  - Serial1: **FrSky X20S Telemetry**
+  - SD Card: **SPI Bus (CS = BUILTIN_SDCARD)**
+- **Archer Plus SR8 Receiver**:
+  - PWM Inputs: **Teensy Digital Pins**
+  - GND: **Common Ground**
+- **FrSky X20S**:
+  - Displays **Flight Data & Adjusts AI Gains**
 
 ---
 
-## Software Setup
-### Required Libraries
-- **Servo.h**: For PWM signal generation. [Install Servo.h](https://www.arduino.cc/reference/en/libraries/servo/)
-- **SD.h**: For data logging. [Install SD.h](https://www.arduino.cc/reference/en/libraries/sd/)
+## 💾 Software Setup
+### **Required Libraries**
+- **Servo.h**: PWM Signal Generation  
+- **SD.h**: Data Logging  
+- **Wire.h**: I2C Communication  
+- **FrSkyTelemetry.h**: Custom Telemetry Handling  
+- **MLModel.h**: AI-Based Flight Optimization  
 
-### Arduino IDE Configuration
-1. Install the **Teensyduino** add-on. [Get Teensyduino](https://www.pjrc.com/teensy/teensyduino.html)
-2. Select the board: `Teensy 4.1`.
-3. Choose the appropriate COM port.
-
----
-
-## Code Overview
-### 1. **Potentiometer Input Reading**
-- Reads analog values from potentiometers.
-- Maps values to the appropriate range for gain adjustments and PWM outputs.
-
-### 2. **PWM Signal Processing**
-- Dynamically adjusts PWM signals based on potentiometer values.
-- Outputs the adjusted PWM signals to the Archer Plus SR8 or servos directly.
-
-### 3. **Debugging and Data Logging**
-- Logs potentiometer values and PWM outputs to an SD card or serial monitor.
-
-### 4. **Lua Script Integration**
-- Provides additional functionality for FrSky X20S transmitters.
+### **Arduino IDE Configuration**
+1️⃣ Install **Teensyduino** Add-on  
+2️⃣ Select **Board: Teensy 4.1**  
+3️⃣ Choose **COM Port & Upload the Code**  
 
 ---
 
-## Example Usage
-1. **Connect the Hardware**:
-   - Wire the potentiometers, Teensy, servos, and receiver as per the wiring diagram.
-2. **Upload the Code**:
-   - Use the Arduino IDE to upload the provided code to the Teensy.
-3. **Monitor Data**:
-   - Use the serial monitor or check the SD card logs for debugging.
-4. **Test Receiver Integration**:
-   - Connect PWM outputs to the Archer Plus SR8 and verify servo responses.
+## 📜 Code Overview
+### **1️⃣ AI Flight Stability (`MLModel.h`)**
+- Adjusts **servo response dynamically** based on flight conditions.
+- Detects **stalls, turbulence, and overcorrections**.
+- Automatically **optimizes flight gains** for smoother control.
+
+### **2️⃣ FrSky Telemetry (`FrSkyTelemetry.h`)**
+- Sends **live data** to the FrSky X20S transmitter.
+- Logs **flight performance metrics**.
+- Adapts to **missing hardware** (e.g., estimates airspeed if sensor is absent).
+
+### **3️⃣ Failsafe & Auto-Recovery**
+- If **signal is lost**, system **switches to Beginner Mode**.
+- If **battery is critically low**, system **triggers Return-To-Home (RTH)**.
 
 ---
 
-## Troubleshooting
-1. **PWM Signal Not Detected**:
-   - Ensure the Teensy and receiver share a common ground.
-   - Verify the PWM output pins are correctly connected.
-2. **Incorrect Channel Responses**:
-   - Check the potentiometer connections.
-   - Verify the mapping ranges in the code.
-3. **Power Issues**:
-   - Use a sufficient 5V power supply (at least 5A for stable operation).
+## 🎮 How to Use
+1️⃣ **Assemble the Hardware** (Connect Servos, Receiver, & Telemetry)  
+2️⃣ **Upload the Code to Teensy**  
+3️⃣ **Power On the System & Hold Plane Still for Calibration**  
+4️⃣ **Monitor Live Data on FrSky X20S & Adjust Gains**  
+5️⃣ **Test Gimbal Response to Movement & AI Adaptation**  
+6️⃣ **Check Data Logging on SD Card (If Enabled)**  
 
 ---
 
-## Future Enhancements
-1. Add **additional channels** (e.g., switches or buttons).
-2. Enhance data logging with timestamps and telemetry.
-3. Integrate visual feedback using an OLED or TFT display.
-4. Design a custom PCB for a more compact and robust solution.
+## ❗ Troubleshooting
+🛠️ **No Servo Response?** Check **PWM connections & power supply.**  
+🛠️ **Telemetry Not Showing?** Ensure **FrSky X20S is paired correctly.**  
+🛠️ **AI Not Adjusting Gains?** Verify **MLModel.h is included & enabled.**  
 
 ---
 
-## References
-- [Teensy Documentation](https://www.pjrc.com/teensy/)
-- [Archer Plus SR8 Manual](https://www.frsky-rc.com/archer-plus-sr8/)
-- [PWM Signal Guide](https://oscarliang.com/pwm-signals/)
+## 🚀 Future Enhancements
+✅ **Add GPS for More Accurate Return-To-Home (RTH)**  
+✅ **Integrate Wind Compensation Using Additional Sensors**  
+✅ **Improve AI-Based Adaptive Control with Machine Learning**  
+✅ **Implement Autonomous Flight Mode with Waypoints**  
 
 ---
 
-## Author
-This project is tailored for advanced RC applications. Contributions and suggestions are always welcome!
+## 📚 References
+📌 [Teensy 4.1 Documentation](https://www.pjrc.com/teensy/)  
+📌 [Archer Plus SR8 Receiver](https://www.frsky-rc.com/archer-plus-sr8/)  
+📌 [FrSky X20S User Guide](https://www.frsky-rc.com/product/tandem-x20s/)  
+
+---
+
+## 👨‍💻 Author & Contributions
+This project is designed for **advanced RC flight systems** and **Fly-By-Wire automation**. Contributions & feedback are always welcome! 🚀
