@@ -17,7 +17,7 @@ This project implements a **Fly-By-Wire (FBW) stabilization system** using a **T
 
 ## 🛠️ Shopping List
 ### **✅ Components You Have**
-1️⃣ **Teensy 4.1** - Core Flight Controller  
+1️⃣ **Teensy 4.1 (with Header Pins)** - Core Flight Controller  
 2️⃣ **Archer Plus SR8 Receiver** - Provides PWM Signals & Gyro Feedback  
 3️⃣ **FrSky X20S Transmitter** - Displays Live Telemetry & Adjusts Gains  
 4️⃣ **4x Servos** - Control Gimbal & Aircraft Stabilization  
