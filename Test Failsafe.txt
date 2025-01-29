@@ -1,7 +1,14 @@
--   **Test the Script on FrSky X20S**
+**🛠️Steps**
+------------------
 
-    -   Load the script into `/SCRIPTS/TOOLS/` on your transmitter.
-    -   Run the script and check the **graphical mode selector**.-   **Test Failsafe Activation**
+### ✅ **Test the Touchscreen Flight Mode Selector**
 
-    -   Turn off the receiver or block the signal.
-    -   Verify that it switches to **Beginner Mode** and displays **"SIGNAL LOST - FAILSAFE!"**.
+1.  Upload the script to `/SCRIPTS/TOOLS/` on the **FrSky X20S** transmitter.
+2.  Run the script and **tap on a flight mode to select it**.
+3.  Check if **PWM values update correctly** after mode selection.
+
+### ✅ **Test the Failsafe Mode**
+
+1.  Turn off the receiver or block the signal.
+2.  The system should **switch to Beginner Mode automatically** and show an alert.
+3.  Restore the signal and verify the system recovers correctly.
