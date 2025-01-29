@@ -40,7 +40,7 @@ How to Use `flightMode`
 
     Serial.print(", Flight Mode: ");
 
-    Serial.println(flightMode);`
+    Serial.println(flightMode);
 
 ### **3\. Modify Flight Behavior in Code (Optional)**
 
@@ -80,4 +80,4 @@ else {
 
     rollGain = rollGain;
 
-}`
+}
