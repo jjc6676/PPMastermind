@@ -1,7 +1,7 @@
 # Shopping List for Teensy-Based RC Transmitter Emulator
 
 ## Core Components
-1. **[Teensy 4.1 Microcontroller](https://www.amazon.com/PJRC-Teensy-4-1-with-Pins/dp/B08CTM3279?crid=1UME7F2ADAST0&dib=eyJ2IjoiMSJ9.sJ78Urlha2ogIlIbQCYBEvczjDk2Mak3MoWtWtg2liPFkgenST7QhfydLUZkOFAGPlxUxLlWjdLH1lSiyiiUP4i0MQ9cLxJtul_KpD93JU2Dn6aSH8xA6FlDG5e-5F-hGdWmhDHaL1t7Wc0OAFbm8zgObuajamDxfCtmfP3RUri7DmoVkCFxH8U8oHLqFXYUZmYHRI1kq5bc7-i0nM-VsdJyJroR3TchMyNODNPkxy8.8gXV2OTR1qU4a5AFJkdP91L9rEj2_-SlYdSFescGW-o&dib_tag=se&keywords=teensy+4.1&qid=1738096320&sprefix=teensy%2Caps%2C132&sr=8-3)**
+1. **[Teensy 4.1 Microcontroller (with Header Pins) ](https://www.amazon.com/PJRC-Teensy-4-1-with-Pins/dp/B08CTM3279?crid=1UME7F2ADAST0&dib=eyJ2IjoiMSJ9.sJ78Urlha2ogIlIbQCYBEvczjDk2Mak3MoWtWtg2liPFkgenST7QhfydLUZkOFAGPlxUxLlWjdLH1lSiyiiUP4i0MQ9cLxJtul_KpD93JU2Dn6aSH8xA6FlDG5e-5F-hGdWmhDHaL1t7Wc0OAFbm8zgObuajamDxfCtmfP3RUri7DmoVkCFxH8U8oHLqFXYUZmYHRI1kq5bc7-i0nM-VsdJyJroR3TchMyNODNPkxy8.8gXV2OTR1qU4a5AFJkdP91L9rEj2_-SlYdSFescGW-o&dib_tag=se&keywords=teensy+4.1&qid=1738096320&sprefix=teensy%2Caps%2C132&sr=8-3)**
    - High-performance microcontroller for signal processing and PPM generation.
 
 2. **[Rotary Potentiometers (4)](https://www.amazon.com/s?k=10k+potentiometer)**
